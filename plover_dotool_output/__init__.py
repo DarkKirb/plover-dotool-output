@@ -40,7 +40,7 @@ class Main:
             self._old_keyboard_emulation = None
 
 # These contain duplicates but whatever
-typeable_chars = set(
+typeable_chars = set([
     0x0031,
 0x00B0,
 0x00B0,
@@ -625,7 +625,7 @@ typeable_chars = set(
 0x2032,
 0x2032,
 0x2033,
-ord('\b') # for backspace
+ord('\b')] # for backspace
 )
 
 def to_commands(text: Iterable[str]) -> Iterator[str]:
