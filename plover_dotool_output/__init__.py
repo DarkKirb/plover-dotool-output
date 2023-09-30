@@ -643,7 +643,6 @@ def to_commands(text: Iterable[str]) -> Iterator[str]:
     if cur_str:
         yield f"type {cur_str}"
             
-
 class KeyboardEmulation(*([KeyboardEmulationBase] if have_output_plugin else [])):
     """Emulate keyboard events."""
 
@@ -658,7 +657,9 @@ class KeyboardEmulation(*([KeyboardEmulationBase] if have_output_plugin else [])
         self._dotool = subprocess.Popen(["dotool"], stdin = subprocess.PIPE)
     
     def _communicate(self, input):
+        print(input)
         self._dotool.stdin.write(input.encode("UTF-8") + b"\n")
+        self._dotool.stdin.flush()
 
     def start(self):
         start()
