@@ -631,7 +631,7 @@ ord('\b')] # for backspace
 def to_commands(text: Iterable[str]) -> Iterator[str]:
     cur_str = ""
     for c in text:
-        if c in typeable_chars:
+        if ord(c) in typeable_chars:
             cur_str += c
         else:
             if cur_str:
