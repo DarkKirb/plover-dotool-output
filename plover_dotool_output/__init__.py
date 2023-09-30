@@ -655,6 +655,7 @@ class KeyboardEmulation(*([KeyboardEmulationBase] if have_output_plugin else [])
             KeyboardEmulationBase.__init__(self, params)
         self._ms = None
         self._dotool = subprocess.Popen(["dotool"], stdin = subprocess.PIPE)
+        self.set_ms(10)
     
     def _communicate(self, input):
         print(input)
