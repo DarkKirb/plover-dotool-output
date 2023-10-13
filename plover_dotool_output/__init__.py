@@ -358,9 +358,9 @@ typeable_chars = set([
 0x0044,
 0x0044,
 0x003A,
-0x002C,
-0x002C,
-0x002C,
+
+
+
 0x03B4,
 0x03B4,
 0x0394,
@@ -370,9 +370,9 @@ typeable_chars = set([
 0x0059,
 0x0059,
 0x0040,
-0x002E,
-0x002E,
-0x002E,
+
+
+
 0x03C5,
 0x03C5,
 0x2207,
@@ -443,7 +443,7 @@ typeable_chars = set([
 0x03BC,
 0x03BC,
 0x21D4,
-0x002C,
+
 0x2013,
 0x2013,
 0x0022,
@@ -453,7 +453,7 @@ typeable_chars = set([
 0x03F1,
 0x03F1,
 0x21D2,
-0x002E,
+
 0x2022,
 0x2022,
 0x0027,
@@ -490,7 +490,7 @@ typeable_chars = set([
 0x02D9,
 0x02DE,
 0x02DE,
-0x002E,
+
 0x02DA,
 0x1FFE,
 0x1FFE,
@@ -618,10 +618,10 @@ typeable_chars = set([
 0x2030,
 0x2030,
 0x25A1,
-0x002C,
-0x002E,
-0x002E,
-0x002C,
+
+
+
+
 0x2032,
 0x2032,
 0x2033,
@@ -642,7 +642,7 @@ def to_commands(text: Iterable[str]) -> Iterator[str]:
             yield "key space"
     if cur_str:
         yield f"type {cur_str}"
-            
+
 class KeyboardEmulation(*([KeyboardEmulationBase] if have_output_plugin else [])):
     """Emulate keyboard events."""
 
@@ -655,8 +655,8 @@ class KeyboardEmulation(*([KeyboardEmulationBase] if have_output_plugin else [])
             KeyboardEmulationBase.__init__(self, params)
         self._ms = None
         self._dotool = subprocess.Popen(["dotool"], stdin = subprocess.PIPE)
-        self.set_ms(10)
-    
+        self.set_ms(1)
+
     def _communicate(self, input):
         print(input)
         self._dotool.stdin.write(input.encode("UTF-8") + b"\n")
@@ -686,7 +686,14 @@ class KeyboardEmulation(*([KeyboardEmulationBase] if have_output_plugin else [])
     def send_key_combination(self, combo_string):
         key_events = parse_key_combo(combo_string)
         for (name, press) in key_events:
-            if press:
+            if name == "return":
+                if press:
+                    self._communicate("keydown rightalt")
+                    self._communicate("keydown p")
+                else:
+                    self._communicate("keyup rightalt")
+                    self._communicate("keyup p")
+            elif press:
                 self._communicate(f"keydown {name}")
             else:
                 self._communicate(f"keyup {name}")
