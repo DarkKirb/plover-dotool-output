@@ -655,7 +655,7 @@ class KeyboardEmulation(*([KeyboardEmulationBase] if have_output_plugin else [])
             KeyboardEmulationBase.__init__(self, params)
         self._ms = None
         self._dotool = subprocess.Popen(["dotool"], stdin = subprocess.PIPE)
-        self.set_ms(1)
+        self.set_key_press_delay(1)
 
     def _communicate(self, input):
         print(input)
@@ -668,7 +668,7 @@ class KeyboardEmulation(*([KeyboardEmulationBase] if have_output_plugin else [])
     def cancel(self):
         pass
 
-    def set_ms(self, ms):
+    def set_key_press_delay(self, ms):
         if self._ms != ms:
             self._communicate(f"keydelay {ms}")
             self._communicate(f"keyhold {ms}")
