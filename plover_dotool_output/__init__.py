@@ -637,7 +637,7 @@ def to_commands(text: Iterable[str]) -> Iterator[str]:
             if cur_str:
                 yield f"type {cur_str}"
                 cur_str = ""
-            yield "key ctrl+shift+u"
+            yield "key ctrl+shift+a"
             yield f"type {hex(ord(c))[2:]}"
             yield "key space"
     if cur_str:
